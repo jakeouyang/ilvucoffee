@@ -1,16 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IsString, IsInt } from 'class-validator';
 
-@Entity()
 export class Coffee {
-  @PrimaryGeneratedColumn()
+  @IsInt()
   id: number;
 
-  @Column()
+  @IsString()
   name: string;
 
-  @Column()
+  @IsString()
   brand: string;
 
-  @Column('json', { nullable: true })
+  @IsString({ each: true })
   flavors: string[];
 }
