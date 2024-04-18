@@ -6,6 +6,7 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from 'src/events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
+import { DataSource } from 'typeorm';
 
 class ConfigService {}
 class DevelopmentConfigService {}
@@ -33,9 +34,15 @@ export class CoffeeBrandsFactory {
     CoffeeBrandsFactory,
     {
       provide: COFFEE_BRANDS,
-      useFactory: (brandsFactory: CoffeeBrandsFactory) =>
-        brandsFactory.create(),
-      inject: [CoffeeBrandsFactory],
+      useFactory: async (
+        connectionDataSource: DataSource,
+      ): Promise<string[]> => {
+        // const coffeeBrands = await connectionDataSource.query('SELECT * ...');
+        const coffeeBrands = await Promise.resolve(['buddy brew', 'nscafe']);
+        console.log('[!] Async Factory');
+        return coffeeBrands;
+      },
+      inject: [DataSource],
     },
   ],
   exports: [CoffeesService],
