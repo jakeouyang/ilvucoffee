@@ -61,10 +61,19 @@ module.exports = new typeorm.DataSource({
   migrations: ['dist/migrations/*.js'],
 });
 
-```
 ```bash
 npx typeorm migration:create ./src/migrations/PostRefactoring 
 ```
+
+4. Joi Joi.object Cannot read properties of undefined
+```typescript
+import * as Joi from 'joi';
+```
+or
+set esModuleInterop: true in your tsconfig.json
+
+```
+
 ## Description
 
 Nestjs official tutorial source code is divided into different branches according to the learning stage.
