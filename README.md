@@ -72,8 +72,6 @@ import * as Joi from 'joi';
 or
 set esModuleInterop: true in your tsconfig.json
 
-```
-
 ## Description
 
 Nestjs official tutorial source code is divided into different branches according to the learning stage.
