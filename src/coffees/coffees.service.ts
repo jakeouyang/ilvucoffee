@@ -1,42 +1,47 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Coffee } from './entities/coffee.entity';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateCoffeeDto } from './dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
 @Injectable()
 export class CoffeesService {
-  private coffee: Coffee[] = [
-    {
-      id: 1,
-      name: 'Blue Sky',
-      brand: 'Tian Rose',
-      flavors: ['chocolate', 'vanilla'],
-    },
-  ];
+  constructor(
+    @InjectModel(Coffee.name)
+    private readonly coffeeModel: Model<Coffee>,
+  ) {}
 
-  findAll() {
-    return this.coffee;
+  async findAll() {
+    return await this.coffeeModel.find().exec();
   }
 
-  findOne(id: number) {
-    return this.coffee.find((item) => item.id === id);
+  async findOne(id: string) {
+    const coffee = await this.coffeeModel.findOne({ _id: id }).exec();
+    if (!coffee) {
+      throw new NotFoundException(`Coffee #${id} not found.`);
+    }
+    return coffee;
   }
 
-  create(createCoffeeDto: any) {
-    return this.coffee.push(createCoffeeDto);
+  create(createCoffeeDto: CreateCoffeeDto) {
+    const coffee = new this.coffeeModel(createCoffeeDto);
+    return coffee.save();
   }
 
-  update(id: number, updateCoffeeDto: any) {
-    const index = this.coffee.findIndex((item) => item.id === id);
-    if (index != -1) {
-      Object.assign(this.coffee[index], updateCoffeeDto);
-    } else {
+  async update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
+    const existingCoffee = await this.coffeeModel
+      .findOneAndUpdate({ _id: id }, { $set: updateCoffeeDto }, { new: true })
+      .exec();
+    if (!existingCoffee) {
       throw new NotFoundException(`Coffee #${id} Not Found`);
     }
+    return existingCoffee;
   }
 
-  remove(id: number) {
-    const coffeeIndex = this.coffee.findIndex((item) => item.id === id);
-    if (coffeeIndex >= 0) {
-      this.coffee.splice(coffeeIndex, 1);
-    }
+  async remove(id: string) {
+    return await this.coffeeModel.deleteOne({ _id: id }).then((result) => {
+      console.log(result);
+    });
   }
 }

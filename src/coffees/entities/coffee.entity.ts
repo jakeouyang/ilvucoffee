@@ -1,15 +1,16 @@
-import { IsString, IsInt } from 'class-validator';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export class Coffee {
-  @IsInt()
-  id: number;
-
-  @IsString()
+@Schema()
+export class Coffee extends Document {
+  @Prop()
   name: string;
 
-  @IsString()
+  @Prop()
   brand: string;
 
-  @IsString({ each: true })
+  @Prop([String])
   flavors: string[];
 }
+
+export const CoffeeSchema = SchemaFactory.createForClass(Coffee);
