@@ -6,17 +6,19 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesServer: CoffeesService) {}
 
   @Get()
-  findAll() {
-    return this.coffeesServer.findAll();
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.coffeesServer.findAll(paginationQuery);
   }
 
   @Get(':id')
@@ -35,8 +37,7 @@ export class CoffeesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    this.coffeesServer.remove(id);
-    return this.coffeesServer.findAll();
+  async remove(@Param('id') id: string) {
+    return await this.coffeesServer.remove(id);
   }
 }

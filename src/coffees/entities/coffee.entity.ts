@@ -9,6 +9,9 @@ export class Coffee extends Document {
   @Prop()
   brand: string;
 
+  @Prop({ default: 0 })
+  recommondations: number;
+
   @Prop([String])
   flavors: string[];
 }
