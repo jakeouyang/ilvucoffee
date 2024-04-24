@@ -9,8 +9,8 @@ export class Event extends mongoose.Document {
   @Prop()
   name: string;
 
-  @Prop(mongoose.Schema.Types.Mixed)
-  payload: Record<string, any>[];
+  @Prop({ type: mongoose.Schema.Types.Mixed })
+  payload: Record<string, any>;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
