@@ -5,8 +5,10 @@ import { CoffeesModule } from './coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { ConfigModule } from '@nestjs/config';
-import { CommonModule } from './common/common.module';
 import * as Joi from 'joi';
+import { UsersModule } from './users/users.module';
+import { IamModule } from './iam/iam.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import * as Joi from 'joi';
     CoffeesModule,
     CoffeeRatingModule,
     CommonModule,
+    UsersModule,
+    IamModule,
   ],
   controllers: [AppController],
   providers: [AppService],
