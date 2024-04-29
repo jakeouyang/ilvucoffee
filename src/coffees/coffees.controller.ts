@@ -17,8 +17,6 @@ import { Protocol } from '../common/decorators/protocol.decorator';
 import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 import { ActiveUser } from '../iam/decorators/active-user.decorator';
 import { ActiveUserData } from '../iam/interfaces/active-user-data.interface';
-import { Permissions } from '../iam/authorization/decorators/permissions.decorator';
-import { Permission } from '../iam/authorization/permission.type';
 import { Policies } from '../iam/authorization/decorators/policies.decorator';
 import { FrameworkContributorPolicy } from '../iam/authorization/policies/framework-contributor.policy';
 
@@ -34,7 +32,6 @@ export class CoffeesController {
     @Protocol('https') protocol: string,
     @Query() paginationQuery: PaginationQueryDto,
   ) {
-    console.log(user);
     // await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulate server access latency
     return this.coffeesServer.findAll(paginationQuery);
   }
@@ -55,14 +52,14 @@ export class CoffeesController {
   }
 
   // @Roles(Role.Admin)
-  @Permissions(Permission.UpdateCoffee)
+  // @Permissions(Permission.UpdateCoffee)
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateCoffeeDto: UpdateCoffeeDto) {
     return this.coffeesServer.update(id, updateCoffeeDto);
   }
 
   // @Roles(Role.Admin)
-  @Permissions(Permission.DeleteCoffee)
+  // @Permissions(Permission.DeleteCoffee)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.coffeesServer.remove(id);
