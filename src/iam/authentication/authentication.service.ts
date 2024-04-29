@@ -71,7 +71,7 @@ export class AuthenticationService {
       this.sginToken<Partial<ActiveUserData>>(
         user.id,
         this.jwtConfiguration.accessTokenTtl,
-        { email: user.email },
+        { email: user.email, role: user.role },
       ),
       this.sginToken(user.id, this.jwtConfiguration.refreshTokenTtl, {
         refreshTokenId,
