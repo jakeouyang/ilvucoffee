@@ -17,10 +17,10 @@ import { Protocol } from '../common/decorators/protocol.decorator';
 import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 import { ActiveUser } from '../iam/decorators/active-user.decorator';
 import { ActiveUserData } from '../iam/interfaces/active-user-data.interface';
-import { Roles } from '../iam/authorization/decorators/roles.decorator';
-import { Role } from '../users/enums/role.enums';
 import { Permissions } from '../iam/authorization/decorators/permissions.decorator';
 import { Permission } from '../iam/authorization/permission.type';
+import { Policies } from '../iam/authorization/decorators/policies.decorator';
+import { FrameworkContributorPolicy } from '../iam/authorization/policies/framework-contributor.policy';
 
 @ApiTags('coffees')
 @Controller('coffees')
@@ -45,7 +45,10 @@ export class CoffeesController {
   }
 
   // @Roles(Role.Admin)
-  @Permissions(Permission.CreateCoffee)
+  //@Permissions(Permission.CreateCoffee)
+  @Policies(
+    new FrameworkContributorPolicy() /** new MinAgePolicy(18), new OnlyAdminPolicy() */,
+  )
   @Post()
   create(@Body() createCoffeeDto: CreateCoffeeDto) {
     return this.coffeesServer.create(createCoffeeDto);
