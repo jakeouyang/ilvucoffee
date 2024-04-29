@@ -53,6 +53,9 @@ export class CoffeesController {
 
   // @Roles(Role.Admin)
   // @Permissions(Permission.UpdateCoffee)
+  @Policies(
+    new FrameworkContributorPolicy() /** new MinAgePolicy(18), new OnlyAdminPolicy() */,
+  )
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateCoffeeDto: UpdateCoffeeDto) {
     return this.coffeesServer.update(id, updateCoffeeDto);
@@ -60,6 +63,9 @@ export class CoffeesController {
 
   // @Roles(Role.Admin)
   // @Permissions(Permission.DeleteCoffee)
+  @Policies(
+    new FrameworkContributorPolicy() /** new MinAgePolicy(18), new OnlyAdminPolicy() */,
+  )
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.coffeesServer.remove(id);
