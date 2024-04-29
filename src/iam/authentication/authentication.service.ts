@@ -71,7 +71,12 @@ export class AuthenticationService {
       this.sginToken<Partial<ActiveUserData>>(
         user.id,
         this.jwtConfiguration.accessTokenTtl,
-        { email: user.email, role: user.role },
+        {
+          email: user.email,
+          role: user.role,
+          // WARNING 通常不在token传输权限信息，一般采用id，还需要建立数据库权限表
+          permissions: user.permissions,
+        },
       ),
       this.sginToken(user.id, this.jwtConfiguration.refreshTokenTtl, {
         refreshTokenId,

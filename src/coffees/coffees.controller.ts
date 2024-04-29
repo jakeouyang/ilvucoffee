@@ -19,6 +19,8 @@ import { ActiveUser } from '../iam/decorators/active-user.decorator';
 import { ActiveUserData } from '../iam/interfaces/active-user-data.interface';
 import { Roles } from '../iam/authorization/decorators/roles.decorator';
 import { Role } from '../users/enums/role.enums';
+import { Permissions } from '../iam/authorization/decorators/permissions.decorator';
+import { Permission } from '../iam/authorization/permission.type';
 
 @ApiTags('coffees')
 @Controller('coffees')
@@ -42,19 +44,22 @@ export class CoffeesController {
     return this.coffeesServer.findOne(id);
   }
 
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
+  @Permissions(Permission.CreateCoffee)
   @Post()
   create(@Body() createCoffeeDto: CreateCoffeeDto) {
     return this.coffeesServer.create(createCoffeeDto);
   }
 
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
+  @Permissions(Permission.UpdateCoffee)
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateCoffeeDto: UpdateCoffeeDto) {
     return this.coffeesServer.update(id, updateCoffeeDto);
   }
 
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
+  @Permissions(Permission.DeleteCoffee)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.coffeesServer.remove(id);
