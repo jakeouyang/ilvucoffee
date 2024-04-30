@@ -19,7 +19,10 @@ import { ActiveUser } from '../iam/decorators/active-user.decorator';
 import { ActiveUserData } from '../iam/interfaces/active-user-data.interface';
 import { Policies } from '../iam/authorization/decorators/policies.decorator';
 import { FrameworkContributorPolicy } from '../iam/authorization/policies/framework-contributor.policy';
+import { Auth } from '../iam/authentication/decorators/auth.decorator';
+import { AuthType } from '../iam/authentication/enums/auth-type.enums';
 
+@Auth(AuthType.Bearer, AuthType.ApiKey)
 @ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
