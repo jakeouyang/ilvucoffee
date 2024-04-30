@@ -1,4 +1,22 @@
-import { SignUpDto } from './sign-up.dto';
-import { PartialType } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsNumberString,
+  IsOptional,
+  MinLength,
+} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class SignInDto extends PartialType(SignUpDto) {}
+export class SignInDto {
+  @ApiProperty({ description: 'The name of a email.' })
+  @IsEmail()
+  email: string;
+
+  @ApiProperty({ description: 'The name of a password.' })
+  @MinLength(10)
+  password: string;
+
+  @ApiProperty({ description: 'The name of a tfa.' })
+  @IsOptional()
+  @IsNumberString()
+  tfaCode?: string;
+}
